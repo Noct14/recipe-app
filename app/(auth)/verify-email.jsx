@@ -43,8 +43,8 @@ const VerifyEmail = ({ email, onBack }) => {
   return (
     <View style={authStyles.container}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+        behavior={Platform.OS === "android" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "android" ? 64 : 0}
         style={authStyles.keyboardView}
       >
         <ScrollView
