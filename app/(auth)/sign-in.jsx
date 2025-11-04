@@ -28,43 +28,45 @@ const SignInScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSignIn = async () =>{
-    if(!email || !password) {
-      Alert.alert("Error", "Email and Password are required.")
-      return
+  const handleSignIn = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
     }
 
-    if(!isLoaded) return;
+    if (!isLoaded) return;
 
-    setLoading(true)
+    setLoading(true);
 
     try {
-      const signInAttempt= await signIn.create({
+      const signInAttempt = await signIn.create({
         identifier: email,
-        password: password,
-      })
+        password,
+      });
 
       if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId})
+        await setActive({ session: signInAttempt.createdSessionId });
       } else {
         Alert.alert("Error", "Sign in failed. Please try again.");
         console.error(JSON.stringify(signInAttempt, null, 2));
       }
     } catch (err) {
-      Alert.alert("Error", err.errors?.[0]?.message ||"Sign in failed")
+      Alert.alert("Error", err.errors?.[0]?.message || "Sign in failed");
+      console.error(JSON.stringify(err, null, 2));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <View style={authStyles.container}>
-      <KeyboardAvoidingView style={authStyles.keyboardView} 
+      <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 64}
+        style={authStyles.keyboardView}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
       >
-        <ScrollView 
-          contentContainerStyle={authStyles.scrollContent} 
+        <ScrollView
+          contentContainerStyle={authStyles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
           <View style={authStyles.imageContainer}>
@@ -74,6 +76,7 @@ const SignInScreen = () => {
               contentFit="contain"
             />
           </View>
+
           <Text style={authStyles.title}>Welcome Back</Text>
 
           {/* FORM CONTAINER */}
@@ -134,10 +137,8 @@ const SignInScreen = () => {
             </TouchableOpacity>
           </View>
         </ScrollView>
-
       </KeyboardAvoidingView>
     </View>
-  )
-}
-
-export default SignInScreen
+  );
+};
+export default SignInScreen;
