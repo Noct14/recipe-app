@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { homeStyles } from "../../assets/styles/home.styles";
 import CategoryFilter from "../../components/CategoryFilter";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import RecipeCard from "../../components/RecipeCard";
 import { COLORS } from "../../constants/colors";
 import { MealAPI } from "../../services/mealAPI";
@@ -81,6 +82,8 @@ const HomeScreen = () => {
   useEffect(() => {
     loadData();
   }, []);
+
+  if (loading && !refreshing) return <LoadingSpinner message="Loading delicions recipes..." />;
 
   return (
     <View style={homeStyles.container}>
@@ -190,7 +193,6 @@ const HomeScreen = () => {
               columnWrapperStyle={homeStyles.row}
               contentContainerStyle={homeStyles.recipesGrid}
               scrollEnabled={false}
-              // ListEmptyComponent={}
             />
           ) : (
             <View style={homeStyles.emptyState}>
@@ -202,7 +204,6 @@ const HomeScreen = () => {
         </View>
       </ScrollView>
     </View>
-  )
-}
-
-export default HomeScreen
+  );
+};
+export default HomeScreen;
